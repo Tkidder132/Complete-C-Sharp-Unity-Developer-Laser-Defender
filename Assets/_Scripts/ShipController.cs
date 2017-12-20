@@ -8,6 +8,7 @@ public class ShipController : MonoBehaviour
 
     public GameObject projectile;
     public float projectileSpeed = 5.0f;
+    public float firingRate = 0.2f;
 
 	// Use this for initialization
 	void Start ()
@@ -24,8 +25,12 @@ public class ShipController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
-            beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed);
+            InvokeRepeating("Fire", 0.0001f, firingRate);
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            CancelInvoke("Fire");
         }
 
 		if(Input.GetKey(KeyCode.LeftArrow))
@@ -38,5 +43,11 @@ public class ShipController : MonoBehaviour
         }
         float x = Mathf.Clamp(transform.position.x, xMin, xMax);
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
+    }
+
+    void Fire()
+    {
+        GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+        beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed);
     }
 }
