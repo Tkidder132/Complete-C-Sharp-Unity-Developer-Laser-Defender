@@ -7,6 +7,7 @@ public class ShipController : MonoBehaviour
     public float padding = 1f;
 
     public GameObject projectile;
+    public float projectileSpeed = 5.0f;
 
 	// Use this for initialization
 	void Start ()
@@ -21,9 +22,10 @@ public class ShipController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            Instantiate(projectile, transform.position, Quaternion.identity);
+            GameObject beam = Instantiate(projectile, transform.position, Quaternion.identity) as GameObject;
+            beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed);
         }
 
 		if(Input.GetKey(KeyCode.LeftArrow))
