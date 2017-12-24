@@ -6,6 +6,7 @@ public class EnemySpawnController : MonoBehaviour
     public float width = 7f;
     public float height = 3f;
     public float speed = 5f;
+    public float spawnDelay = 0.5f;
 
     private bool movingRight = false;
     private float xMax, xMin;
@@ -18,8 +19,24 @@ public class EnemySpawnController : MonoBehaviour
         Vector3 rightBoundary = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distanceToCamera));
         xMax = rightBoundary.x;
         xMin = leftBoundary.x;
-        
+        SpawnEnemiesUntilFull();        
 	}
+
+    void SpawnEnemiesUntilFull()
+    {
+        Debug.Log("Spawning enemies");
+        Transform freePosition = NextFreePosition();
+        if(freePosition)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, freePosition.position, Quaternion.identity) as GameObject;
+            enemy.transform.parent = freePosition;
+        }
+
+        if(NextFreePosition())
+        {
+            Invoke("SpawnEnemiesUntilFull", spawnDelay);
+        }
+    }
 
     void SpawnEnemies()
     {
@@ -60,9 +77,21 @@ public class EnemySpawnController : MonoBehaviour
 
         if(AllMembersDead())
         {
-            SpawnEnemies();
+            SpawnEnemiesUntilFull();
         }
 	}
+
+    Transform NextFreePosition()
+    {
+        foreach (Transform childPositionGameObject in transform)
+        {
+            if (childPositionGameObject.childCount == 0)
+            {
+                return childPositionGameObject;
+            }
+        }
+        return null;
+    }
 
     bool AllMembersDead()
     {
