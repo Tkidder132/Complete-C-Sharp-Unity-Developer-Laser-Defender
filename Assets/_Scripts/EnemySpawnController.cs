@@ -18,12 +18,17 @@ public class EnemySpawnController : MonoBehaviour
         Vector3 rightBoundary = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distanceToCamera));
         xMax = rightBoundary.x;
         xMin = leftBoundary.x;
+        
+	}
+
+    void SpawnEnemies()
+    {
         foreach (Transform child in transform)
         {
             GameObject enemy = Instantiate(enemyPrefab, child.transform.position, Quaternion.identity) as GameObject;
             enemy.transform.parent = child;
         }
-	}
+    }
 
     private void OnDrawGizmos()
     {
@@ -52,5 +57,22 @@ public class EnemySpawnController : MonoBehaviour
         {
             movingRight = false;
         }
+
+        if(AllMembersDead())
+        {
+            SpawnEnemies();
+        }
 	}
+
+    bool AllMembersDead()
+    {
+        foreach(Transform childPositionGameObject in transform)
+        {
+            if(childPositionGameObject.childCount > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
