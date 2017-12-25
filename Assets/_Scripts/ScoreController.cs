@@ -9,16 +9,23 @@ public class ScoreController : MonoBehaviour
     private void Start()
     {
         scoreText = GetComponent<Text>();
+        ResetScore();
     }
 
     public void AddScore(int points)
     {
         score += points;
-        scoreText.text = "Score: " + score.ToString();
+        SetText();
     }
 
     public void ResetScore()
     {
         score = 0;
+        SetText();
+    }
+
+    private void SetText()
+    {
+        scoreText.text = "Score: " + score.ToString();
     }
 }
