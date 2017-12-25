@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ScoreController : MonoBehaviour
 {
-    public int score = 0;
+    public static int score = 0;
     private Text scoreText;
 
     private void Start()
@@ -18,10 +18,9 @@ public class ScoreController : MonoBehaviour
         SetText();
     }
 
-    public void ResetScore()
+    public static void ResetScore()
     {
         score = 0;
-        SetText();
     }
 
     private void SetText()

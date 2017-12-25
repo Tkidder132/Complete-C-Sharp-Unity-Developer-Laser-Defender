@@ -12,10 +12,12 @@ public class ShipController : MonoBehaviour
     public float health = 500.0f;
 
     public AudioClip fireSound;
+    private LevelManagerController levelManager;
 
 	// Use this for initialization
 	void Start ()
     {
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManagerController>();
         float distance = transform.position.z - Camera.main.transform.position.z;
         Vector3 leftmost = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
         Vector3 rightmost = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance));
@@ -65,9 +67,15 @@ public class ShipController : MonoBehaviour
             health -= missile.GetDamage();
             if (health <= 0)
             {
-                Destroy(gameObject);
+                Death();
             }
             Debug.Log("Hit by a missile");
         }
+    }
+
+    void Death()
+    {
+        Destroy(gameObject);
+        levelManager.LoadLevel("Win");
     }
 }

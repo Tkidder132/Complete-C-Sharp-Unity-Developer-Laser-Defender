@@ -3,16 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelManagerController : MonoBehaviour
 {
-    public int brickCount = 0;
-
-    public void CheckBrickCount()
-    {
-        if(brickCount <= 0)
-        {
-            LoadNextLevel();
-        }
-    }
-
     public void LoadLevel(string name)
     {
         Debug.Log("Level load requested for " + name);
