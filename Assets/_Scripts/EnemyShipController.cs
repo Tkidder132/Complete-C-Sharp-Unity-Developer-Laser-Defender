@@ -2,15 +2,19 @@
 
 public class EnemyShipController : MonoBehaviour
 {
+    public int scoreValue = 5;
     public float health = 200f;
     public GameObject projectile;
     public float projectileSpeed = 5.0f;
     public float firingRate = 1.0f;
     float elapsedTime = 0.0f;
 
+    ScoreController scoreKeeper;
+
     void Start()
     {
-        firingRate = Random.Range(1, 5);    
+        scoreKeeper = GameObject.Find("Score").GetComponent<ScoreController>();
+        firingRate = Random.Range(1, 5);
     }
 
     void Update()
@@ -42,6 +46,7 @@ public class EnemyShipController : MonoBehaviour
             health -= missile.GetDamage();
             if(health <= 0)
             {
+                scoreKeeper.AddScore(scoreValue);
                 Destroy(gameObject);
             }
             Debug.Log("Hit by a missile");
