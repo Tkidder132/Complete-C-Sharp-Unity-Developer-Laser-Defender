@@ -49,11 +49,16 @@ public class EnemyShipController : MonoBehaviour
             health -= missile.GetDamage();
             if(health <= 0)
             {
-                scoreKeeper.AddScore(scoreValue);
-                AudioSource.PlayClipAtPoint(deathSound, transform.position);
-                Destroy(gameObject);
+                Death();
             }
             Debug.Log("Hit by a missile");
         }
+    }
+
+    void Death()
+    {
+        scoreKeeper.AddScore(scoreValue);
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        Destroy(gameObject);
     }
 }
