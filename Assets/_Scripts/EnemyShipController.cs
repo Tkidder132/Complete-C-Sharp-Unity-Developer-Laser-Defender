@@ -10,6 +10,8 @@ public class EnemyShipController : MonoBehaviour
     float elapsedTime = 0.0f;
 
     ScoreController scoreKeeper;
+    public AudioClip fireSound;
+    public AudioClip deathSound;
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class EnemyShipController : MonoBehaviour
         Vector3 startPosition = transform.position + new Vector3(0, -.75f, 0);
         GameObject beam = Instantiate(projectile, startPosition, Quaternion.identity) as GameObject;
         beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -projectileSpeed);
+        AudioSource.PlayClipAtPoint(fireSound, transform.position);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -47,6 +50,7 @@ public class EnemyShipController : MonoBehaviour
             if(health <= 0)
             {
                 scoreKeeper.AddScore(scoreValue);
+                AudioSource.PlayClipAtPoint(deathSound, transform.position);
                 Destroy(gameObject);
             }
             Debug.Log("Hit by a missile");

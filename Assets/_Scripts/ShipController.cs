@@ -9,8 +9,9 @@ public class ShipController : MonoBehaviour
     public GameObject projectile;
     public float projectileSpeed = 5.0f;
     public float firingRate = 0.2f;
-
     public float health = 500.0f;
+
+    public AudioClip fireSound;
 
 	// Use this for initialization
 	void Start ()
@@ -52,6 +53,7 @@ public class ShipController : MonoBehaviour
         Vector3 startPosition = transform.position + new Vector3(0, .75f, 0);
         GameObject beam = Instantiate(projectile, startPosition, Quaternion.identity) as GameObject;
         beam.GetComponent<Rigidbody2D>().velocity = new Vector3(0, projectileSpeed);
+        AudioSource.PlayClipAtPoint(fireSound, transform.position);
     }
 
     void OnTriggerEnter2D(Collider2D collider)
